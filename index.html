@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Company - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .hero-section {
+            background-color: black;
+            color: white;
+            padding: 4rem 0;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+        }
+
+
+
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+
+        :root {
+            /* Dark mode colors */
+            --text-color: #E3E3E3;
+            --subheading-color: #828282;
+            --placeholder-color: #A6A6A6;
+            --primary-color: #242424;
+            --secondary-color: #383838;
+            --secondary-hover-color: #444;
+        }
+
+        .light_mode {
+            /* Light mode colors */
+            --text-color: #222;
+            --subheading-color: #A0A0A0;
+            --placeholder-color: #6C6C6C;
+            --primary-color: #FFF;
+            --secondary-color: #E9EEF6;
+            --secondary-hover-color: #DBE1EA;
+        }
+
+
+        .header,
+        .chat-list .message,
+        .typing-form {
+            margin: 0 auto;
+            max-width: 980px;
+        }
+
+        .header {
+            margin-top: 6vh;
+            padding: 1rem;
+            overflow-x: hidden;
+        }
+
+        body.hide-header .header {
+            margin: 0;
+            display: none;
+        }
+
+        .header :where(.title, .subtitle) {
+            color: var(--text-color);
+            font-weight: 500;
+            line-height: 4rem;
+        }
+
+        .header .title {
+            width: fit-content;
+            font-size: 3rem;
+            background-clip: text;
+            background: linear-gradient(to right, #4285f4, #d96570);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header .subtitle {
+            font-size: 2.6rem;
+            color: var(--subheading-color);
+        }
+
+        .suggestion-list {
+            width: 100%;
+            list-style: none;
+            display: flex;
+            gap: 1.25rem;
+            margin-top: 9.5vh;
+            overflow: hidden;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none;
+        }
+
+        .suggestion-list .suggestion {
+            cursor: pointer;
+            padding: 1.25rem;
+            width: 222px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            border-radius: 0.75rem;
+            justify-content: space-between;
+            background: var(--secondary-color);
+            transition: 0.2s ease;
+        }
+
+        .suggestion-list .suggestion:hover {
+            background: var(--secondary-hover-color);
+        }
+
+        .suggestion-list .suggestion :where(.text, .icon) {
+            font-weight: 400;
+            color: var(--text-color);
+        }
+
+        .suggestion-list .suggestion .icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            font-size: 1.3rem;
+            margin-top: 2.5rem;
+            align-self: flex-end;
+            align-items: center;
+            border-radius: 50%;
+            justify-content: center;
+            color: var(--text-color);
+            background: var(--primary-color);
+        }
+
+        .chat-list {
+            padding: 2rem 1rem 12rem;
+            max-height: 100vh;
+            overflow-y: auto;
+            scrollbar-color: #999 transparent;
+        }
+
+        .chat-list .message.incoming {
+            margin-top: 1.5rem;
+        }
+
+        .chat-list .message .message-content {
+            display: flex;
+            gap: 1.5rem;
+            width: 100%;
+            align-items: center;
+        }
+
+        .chat-list .message .text {
+            color: var(--text-color);
+            white-space: pre-wrap;
+        }
+
+        .chat-list .message.error .text {
+            color: #e55865;
+        }
+
+        .chat-list .message.loading .text {
+            display: none;
+        }
+
+        .chat-list .message .avatar {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+            align-self: flex-start;
+        }
+
+        .chat-list .message.loading .avatar {
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .chat-list .message .icon {
+            color: var(--text-color);
+            cursor: pointer;
+            height: 35px;
+            width: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            font-size: 1.25rem;
+            margin-left: 3.5rem;
+            visibility: hidden;
+        }
+
+        .chat-list .message .icon.hide {
+            visibility: hidden;
+        }
+
+        .chat-list .message:not(.loading, .error):hover .icon:not(.hide) {
+            visibility: visible;
+        }
+
+        .chat-list .message .icon:hover {
+            background: var(--secondary-hover-color);
+        }
+
+        .chat-list .message .loading-indicator {
+            display: none;
+            gap: 0.8rem;
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .chat-list .message.loading .loading-indicator {
+            display: flex;
+        }
+
+        .chat-list .message .loading-indicator .loading-bar {
+            height: 11px;
+            width: 100%;
+            border-radius: 0.135rem;
+            background-position: -800px 0;
+            background: linear-gradient(to right, #4285f4, var(--primary-color), #4285f4);
+            animation: loading 3s linear infinite;
+        }
+
+        .chat-list .message .loading-indicator .loading-bar:last-child {
+            width: 70%;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: -800px 0;
+            }
+
+            100% {
+                background-position: 800px 0;
+            }
+        }
+
+        .typing-area {
+            /* position: fixed; */
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            padding: 1rem;
+            background: var(--primary-color);
+        }
+
+        .typing-area :where(.typing-form, .action-buttons) {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .typing-form .input-wrapper {
+            width: 100%;
+            height: 56px;
+            display: flex;
+            position: relative;
+        }
+
+        .typing-form .typing-input {
+            height: 100%;
+            width: 100%;
+            border: none;
+            outline: none;
+            resize: none;
+            font-size: 1rem;
+            color: var(--text-color);
+            padding: 1.1rem 4rem 1.1rem 1.5rem;
+            border-radius: 100px;
+            background: var(--secondary-color);
+        }
+
+        .typing-form .typing-input:focus {
+            background: var(--secondary-hover-color);
+        }
+
+        .typing-form .typing-input::placeholder {
+            color: var(--placeholder-color);
+        }
+
+        .typing-area .icon {
+            width: 56px;
+            height: 56px;
+            flex-shrink: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            font-size: 1.4rem;
+            color: var(--text-color);
+            align-items: center;
+            justify-content: center;
+            background: var(--secondary-color);
+            transition: 0.2s ease;
+        }
+
+        .typing-area .icon:hover {
+            background: var(--secondary-hover-color);
+        }
+
+        .typing-form #send-message-button {
+            position: absolute;
+            right: 0;
+            outline: none;
+            border: none;
+            transform: scale(0);
+            background: transparent;
+            transition: transform 0.2s ease;
+        }
+
+        .typing-form .typing-input:valid~#send-message-button {
+            transform: scale(1);
+        }
+
+        .typing-area .disclaimer-text {
+            text-align: center;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            color: var(--placeholder-color);
+        }
+
+        /* Responsive media query code for small screen */
+        @media (max-width: 768px) {
+            .header :is(.title, .subtitle) {
+                font-size: 2rem;
+                line-height: 2.6rem;
+            }
+
+            .header .subtitle {
+                font-size: 1.7rem;
+            }
+
+            .typing-area :where(.typing-form, .action-buttons) {
+                gap: 0.4rem;
+            }
+
+            .typing-form .input-wrapper {
+                height: 50px;
+            }
+
+            .typing-form .typing-input {
+                padding: 1.1rem 3.5rem 1.1rem 1.2rem;
+            }
+
+            .typing-area .icon {
+                height: 50px;
+                width: 50px;
+            }
+
+            .typing-area .disclaimer-text {
+                font-size: 0.75rem;
+                margin-top: 0.5rem;
+            }
+        }
+
+        .action-buttons>#theme-toggle-button {
+            display: none;
+        }
+
+        #theme-toggle-button {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-900">
+    <header id="navbar" class="bg-white shadow-md">
+
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl font-bold mb-4" id="welcome-message">Welcome to the Future of AI</h1>
+                <p class="mb-8 max-w-2xl mx-auto">Harness the power of artificial intelligence to transform your
+                    business and unlock new possibilities.</p>
+                <div>
+                    <button class="bg-blue-500 text-white px-6 py-2 rounded mr-4">Get Started</button>
+                    <button class="bg-transparent border border-white text-white px-6 py-2 rounded">Learn More</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-8">About Our AI</h2>
+                <p class="text-center mb-12 max-w-2xl mx-auto">Our cutting-edge AI technology is designed to
+                    revolutionize industries and empower businesses with intelligent solutions.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card">
+                        <i class="fas fa-microchip text-4xl text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Advanced Algorithms</h3>
+                        <p>State-of-the-art machine learning algorithms for optimal performance.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-code text-4xl text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">Easy Integration</h3>
+                        <p>Seamlessly integrate our AI into your existing systems and workflows.</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-comments text-4xl text-blue-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">24/7 Support</h3>
+                        <p>Round-the-clock assistance to ensure smooth operation of your AI solutions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="section">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-8">Pricing Plans</h2>
+                <p class="text-center mb-12 max-w-2xl mx-auto">Choose the perfect plan for your AI needs</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card">
+                        <h3 class="text-2xl font-bold mb-2">Starter</h3>
+                        <p class="text-4xl font-bold mb-4">$99<span class="text-sm font-normal">/month</span></p>
+                        <ul class="mb-4">
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>Basic AI functionality</li>
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>5,000 API calls per month</li>
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>Email support</li>
+                        </ul>
+                        <button class="bg-blue-500 text-white px-6 py-2 rounded w-full">Get Started</button>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-2xl font-bold mb-2">Pro</h3>
+                        <p class="text-4xl font-bold mb-4">$299<span class="text-sm font-normal">/month</span></p>
+                        <ul class="mb-4">
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>Advanced AI features</li>
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>50,000 API calls per month</li>
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>Priority support</li>
+                        </ul>
+                        <button class="bg-blue-500 text-white px-6 py-2 rounded w-full">Get Started</button>
+                    </div>
+                    <div class="card">
+                        <h3 class="text-2xl font-bold mb-2">Enterprise</h3>
+                        <p class="text-4xl font-bold mb-4">Custom</p>
+                        <ul class="mb-4">
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>Full AI suite</li>
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>Unlimited API calls</li>
+                            <li class="flex items-center mb-2"><i
+                                    class="fas fa-check-circle text-green-500 mr-2"></i>24/7 dedicated support</li>
+                        </ul>
+                        <button class="bg-blue-500 text-white px-6 py-2 rounded w-full">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews" class="section bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-8">Customer Reviews</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="card">
+                        <div class="flex mb-4">
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                        </div>
+                        <p class="mb-4">"This AI solution has transformed our business operations. The insights we've
+                            gained are invaluable."</p>
+                        <p class="font-bold">John Doe</p>
+                        <p class="text-sm text-gray-500">CEO, Tech Corp</p>
+                    </div>
+                    <div class="card">
+                        <div class="flex mb-4">
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                        </div>
+                        <p class="mb-4">"The AI-powered analytics have given us a competitive edge in our market. Highly
+                            recommended!"</p>
+                        <p class="font-bold">Jane Smith</p>
+                        <p class="text-sm text-gray-500">CTO, Innovation Inc</p>
+                    </div>
+                    <div class="card">
+                        <div class="flex mb-4">
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                            <i class="fas fa-star text-yellow-500"></i>
+                        </div>
+                        <p class="mb-4">"The customer support team is exceptional. They've been there every step of the
+                            way during our AI integration."</p>
+                        <p class="font-bold">Mike Johnson</p>
+                        <p class="text-sm text-gray-500">COO, Future Systems</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="" class="section">
+            <h2 class="text-3xl font-bold text-center mb-8">Try Our AI Demo</h2>
+            <!-- Chat List / Container -->
+            <div class="chat-list">
+
+            </div>
+
+            <!-- Typing Area -->
+            <div class="typing-area">
+                <form action="#" class="typing-form">
+                    <div class="input-wrapper">
+                        <input type="text" placeholder="Enter a prompt here" class="typing-input" required />
+                        <button id="send-message-button" class="icon material-symbols-rounded">send</button>
+                    </div>
+                    <div class="action-buttons">
+                        <span id="theme-toggle-button" class="icon material-symbols-rounded">light_mode</span>
+                        <span id="delete-chat-button" class="icon"><i class="fa-solid fa-trash"></i></span>
+                    </div>
+                </form>
+                <p class="disclaimer-text">
+                    Gemini may display inaccurate info, including about people, so double-check its responses.
+                </p>
+            </div>
+
+        </section>
+
+        <section id="contact" class="section bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-8">Contact Us</h2>
+                <p class="text-center mb-12 max-w-2xl mx-auto">Get in touch with our team to learn more about our AI
+                    solutions</p>
+                <form class="card max-w-lg mx-auto">
+                    <div class="mb-4">
+                        <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                        <input id="name" type="text" placeholder="Enter your name"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input id="email" type="email" placeholder="Enter your email"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md">
+                    </div>
+                    <div class="mb-4">
+                        <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                        <textarea id="message" placeholder="Enter your message"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md"></textarea>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-2 rounded w-full">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <p class="text-sm">&copy; 2024 AI Company. All rights reserved.</p>
+                <nav class="mt-4 md:mt-0">
+                    <a href="#" class="text-sm hover:underline mx-2">Terms of Service</a>
+                    <a href="#" class="text-sm hover:underline mx-2">Privacy</a>
+                </nav>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./js/navbar.js"></script>
+    <script src="./js/gemini.js"></script>
+    <script src="./config/config.js"></script>
+
+    <script>
+        (async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                return; // Show default message if no token is present
+            }
+
+            try {
+                // Fetch user data from the backend
+                const response = await fetch(`${CONFIG.BACKEND_URL}/api/users/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.data?.user?.email) {
+                    // Extract username from email
+                    const username = data.data.user.email.split('@')[0];
+                    // Update welcome message with username
+                    document.getElementById('welcome-message').textContent = `Welcome to the Future of AI, ${username}`;
+                } else {
+                    // Unauthorized - clear token and redirect to login
+                    localStorage.removeItem('token');
+                    window.location.href = 'login.html';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                localStorage.removeItem('token'); // Clear token on error
+            }
+        })();
+    </script>
+</body>
+
+</html>
